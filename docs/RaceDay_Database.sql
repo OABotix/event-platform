@@ -215,3 +215,276 @@ VALUES
 (3, 5, 'IRONMAN South Africa', 'A full-distance triathlon in Nelson Mandela Bay combining a 3.8km swim, 180km cycle and 42.2km run.', '2026-04-19 06:30:00', 'Gqeberha, Eastern Cape', 226.00 ),
 (4, 5, 'IRONMAN 70.3 South Africa', 'A half-distance triathlon combining swimming, cycling and running for athletes seeking a shorter endurance challenge.', '2026-11-01 06:30:00', 'Gqeberha, Eastern Cape', 113.00 );
 
+-- ============================================
+-- CATEGORIES
+-- ============================================
+
+-- Comrades Marathon (EventID 1)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(1, 'Ultra Marathon', 'Approximately 89km ultra-marathon route between Durban and Pietermaritzburg.', 750.00);
+
+-- Two Oceans Marathon (EventID 2)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(2, '56km Ultra Marathon', 'The iconic Two Oceans Ultra Marathon route.', 700.00),
+(2, '21.1km Half Marathon', 'Half marathon route through the Cape Town southern suburbs.', 400.00);
+
+-- Two Oceans Half Marathon (EventID 3)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(3, '21.1km Half Marathon', 'Standard half marathon category.', 400.00),
+(3, '21.1km Junior', 'Junior half marathon category subject to event eligibility requirements.', 300.00);
+
+-- Gun Run (EventID 4)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(4, '21.1km Half Marathon', 'Half marathon road race through Cape Town.', 300.00),
+(4, '10km Road Race', '10km road running event.', 220.00),
+(4, '5km Fun Run', 'Short community-focused fun run.', 120.00);
+
+-- Soweto Marathon (EventID 5)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(5, '42.2km Marathon', 'Full marathon distance through Soweto.', 450.00),
+(5, '21.1km Half Marathon', 'Half marathon distance.', 350.00),
+(5, '10km Road Race', '10km road running event.', 200.00);
+
+-- Absa Run Your City (EventID 6)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(6, '10km Road Race', '10km mass participation road race.', 180.00),
+(6, '10km Corporate Entry', '10km corporate participation category.', 200.00);
+
+-- Cape Town Big Walk (EventID 7)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(7, '10km Walk', '10km community walking route.', 150.00),
+(7, '5km Walk', 'Shorter 5km walking route.', 100.00);
+
+-- Durban Beach Walk (EventID 8)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(8, '10km Beach Walk', '10km beachfront walking route.', 150.00),
+(8, '5km Family Walk', 'Family-friendly 5km route.', 100.00);
+
+-- Johannesburg Community Walk (EventID 9)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(9, '5km Community Walk', '5km community walking route.', 80.00),
+(9, '5km Family Entry', 'Family-oriented 5km walking category.', 60.00);
+
+-- Cape Town Cycle Tour (EventID 10)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(10, '109km Main Route', 'Full Cape Peninsula cycling route.', 940.00),
+(10, 'Tandem Entry', 'Tandem cycling category for two riders.', 1200.00);
+
+-- aQuellé Tour Durban (EventID 11)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(11, '100km Road Race', 'Long-distance road cycling route.', 1450.00),
+(11, '65km Road Ride', 'Intermediate road cycling route.', 900.00),
+(11, '28km Fun Ride', 'Short recreational cycling route.', 300.00);
+
+-- Ride Joburg (EventID 12)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(12, '97km Road Race', 'Main mass-participation road cycling route.', 950.00),
+(12, '35km Short Ride', 'Shorter cycling route for recreational riders.', 450.00);
+
+-- Cape Town Cycle Tour 42km (EventID 13)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(13, '42km Route', 'Shorter Cape Town Cycle Tour route.', 500.00);
+
+-- Midmar Mile (EventID 14)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(14, '1.6km Open Water Swim', 'Standard Midmar Mile open-water swimming distance.', 250.00),
+(14, '1.6km Junior Swim', 'Junior open-water swimming category.', 200.00);
+
+-- Cape Town Open Water Swim (EventID 15)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(15, '5km Open Water Swim', '5km open-water swimming event.', 350.00),
+(15, '3km Open Water Swim', '3km open-water swimming event.', 280.00),
+(15, '1.5km Open Water Swim', 'Short recreational open-water swim.', 200.00);
+
+-- IRONMAN South Africa (EventID 16)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(16, 'Full IRONMAN', '3.8km swim, 180km bike and 42.2km run.', 9410.00);
+
+-- IRONMAN 70.3 South Africa (EventID 17)
+INSERT INTO Category
+(EventID, CategoryName, Description, EntryFee)
+VALUES
+(17, 'IRONMAN 70.3', '1.9km swim, 90km bike and 21.1km run.', 6500.00);
+
+-- ============================================
+-- ENROLMENTS
+-- ============================================
+
+-- Lerato Molefe (UserID 5)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(5, 1, 1, '2025-12-10 09:15:00', 'Confirmed'),
+(5, 2, 2, '2026-01-15 10:30:00', 'Confirmed'),
+(5, 10, 13, '2025-11-20 14:00:00', 'Confirmed'),
+(5, 14, 24, '2025-12-12 11:20:00', 'Confirmed'),
+(5, 6, 11, '2026-07-15 09:00:00', 'Confirmed');
+
+-- James van Wyk (UserID 6)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(6, 1, 1, '2025-12-05 08:45:00', 'Confirmed'),
+(6, 3, 4, '2026-01-20 16:10:00', 'Confirmed'),
+(6, 12, 21, '2026-01-15 09:30:00', 'Confirmed'),
+(6, 16, 25, '2025-10-10 12:00:00', 'Confirmed'),
+(6, 17, 26, '2026-05-15 10:00:00', 'Confirmed');
+
+-- Anele Jacobs (UserID 7)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(7, 3, 3, '2026-01-18 13:25:00', 'Confirmed'),
+(7, 4, 6, '2026-07-01 15:40:00', 'Confirmed'),
+(7, 7, 14, '2026-06-15 10:00:00', 'Confirmed'),
+(7, 15, 26, '2026-08-20 09:15:00', 'Confirmed'),
+(7, 11, 17, '2026-02-10 11:00:00', 'Confirmed');
+
+-- Sipho Mthembu (UserID 8)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(8, 5, 8, '2026-06-12 11:00:00', 'Confirmed'),
+(8, 11, 17, '2026-02-25 14:20:00', 'Confirmed'),
+(8, 12, 20, '2026-07-10 12:45:00', 'Confirmed'),
+(8, 9, 18, '2026-09-01 10:00:00', 'Pending');
+
+-- Megan Williams (UserID 9)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(9, 2, 3, '2026-01-22 09:00:00', 'Confirmed'),
+(9, 6, 11, '2026-07-15 10:15:00', 'Confirmed'),
+(9, 14, 24, '2025-12-18 08:30:00', 'Confirmed'),
+(9, 15, 28, '2026-09-15 11:00:00', 'Confirmed');
+
+-- Daniel Naidoo (UserID 10)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(10, 10, 12, '2025-11-25 15:00:00', 'Confirmed'),
+(10, 11, 16, '2026-03-01 11:30:00', 'Confirmed'),
+(10, 16, 25, '2025-10-08 09:45:00', 'Confirmed'),
+(10, 13, 23, '2026-01-15 10:00:00', 'Confirmed');
+
+-- Zanele Khumalo (UserID 11)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(11, 5, 9, '2026-05-20 13:00:00', 'Confirmed'),
+(11, 8, 16, '2026-08-10 14:15:00', 'Confirmed'),
+(11, 9, 18, '2026-09-01 10:00:00', 'Pending'),
+(11, 14, 25, '2026-01-10 09:00:00', 'Confirmed');
+
+-- Ryan Botha (UserID 12)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(12, 2, 2, '2026-01-10 12:30:00', 'Confirmed'),
+(12, 10, 12, '2025-11-30 09:10:00', 'Confirmed'),
+(12, 17, 26, '2026-05-20 16:00:00', 'Confirmed'),
+(12, 4, 5, '2026-07-01 08:00:00', 'Confirmed');
+
+-- Kayla Petersen (UserID 13)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(13, 4, 7, '2026-07-20 08:45:00', 'Confirmed'),
+(13, 7, 14, '2026-06-05 11:15:00', 'Confirmed'),
+(13, 15, 28, '2026-08-25 10:30:00', 'Confirmed'),
+(13, 8, 16, '2026-08-01 09:00:00', 'Confirmed');
+
+-- Andile Mokoena (UserID 14)
+INSERT INTO Enrolment
+(ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
+VALUES
+(14, 5, 7, '2026-04-10 15:30:00', 'Confirmed'),
+(14, 12, 20, '2026-07-05 09:00:00', 'Confirmed'),
+(14, 17, 26, '2026-05-12 14:45:00', 'Confirmed'),
+(14, 3, 4, '2026-01-25 11:00:00', 'Confirmed');
+
+-- ============================================
+-- RESULTS
+-- ============================================
+
+-- Results referencing Enrolment IDs (1-34)
+INSERT INTO Result
+(EnrolmentID, FinishTime, FinishPosition, PublishedAt)
+VALUES
+-- Comrades Marathon
+(1, '08:42:17', 1842, '2026-06-14 18:00:00'),
+(6, '07:58:31', 967,  '2026-06-14 18:00:00'),
+
+-- Two Oceans Ultra Marathon (EventID 2)
+(2, '05:36:22', 1284, '2026-04-19 14:30:00'),
+(19, '04:48:47', 932,  '2026-04-19 14:30:00'),
+(25, '05:52:10', 1542, '2026-04-19 14:30:00'),
+
+-- Two Oceans Half Marathon (EventID 3)
+(7, '01:54:38', 742, '2026-04-19 11:30:00'),
+(11, '01:48:25', 521, '2026-04-19 11:30:00'),
+(34, '01:38:12', 312, '2026-04-19 11:30:00'),
+
+-- Cape Town Cycle Tour 109km (EventID 10)
+(3, '04:21:45', 5842, '2026-03-08 16:30:00'),
+(23, '03:57:18', 4210, '2026-03-08 16:30:00'),
+(29, '04:12:06', 5137, '2026-03-08 16:30:00'),
+
+-- Midmar Mile (EventID 14)
+(4, '00:31:42', 384, '2026-02-14 11:00:00'),
+(22, '00:34:18', 612, '2026-02-14 11:00:00'),
+
+-- Tour Durban 100km (EventID 11)
+(12, '03:42:15', 821, '2026-04-19 13:00:00'),
+(26, '02:18:44', 412, '2026-04-19 12:30:00'),
+
+-- IRONMAN South Africa (EventID 16)
+(9, '11:48:32', 614, '2026-04-20 00:30:00'),
+(27, '10:56:21', 388, '2026-04-20 00:30:00'),
+
+-- Soweto Marathon (EventID 5)
+(13, '04:07:26', 512, '2026-11-01 14:00:00'),
+
+-- Gun Run Half Marathon (EventID 4)
+(16, '01:52:08', 318, '2026-10-04 11:30:00'),
+
+-- Cape Town Big Walk (EventID 7)
+(17, '01:32:45', 102, '2026-09-27 10:00:00'),
+(30, '01:28:33', 87, '2026-09-27 10:00:00'),
+
+-- Run Your City 10km (EventID 6)
+(21, '00:52:17', 342, '2026-09-20 10:30:00'),
+(28, '00:48:53', 215, '2026-09-20 10:30:00');
+
