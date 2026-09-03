@@ -488,3 +488,20 @@ VALUES
 (21, '00:52:17', 342, '2026-09-20 10:30:00'),
 (28, '00:48:53', 215, '2026-09-20 10:30:00');
 
+-- ============================================
+-- VERIFY DATA
+-- ============================================
+
+SELECT * FROM Role;
+
+SELECT * FROM EventType;
+
+SELECT * FROM Users;
+
+SELECT * FROM Event;
+
+SELECT * FROM Category;
+
+SELECT * FROM Enrolment;
+
+SELECT * FROM Result;
