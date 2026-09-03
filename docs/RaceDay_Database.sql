@@ -65,3 +65,40 @@ CREATE TABLE Event (
     EventBanner VARCHAR(500),
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- ============================================
+-- 5. CATEGORY TABLE
+-- ============================================
+CREATE TABLE Category (
+    CategoryID INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (CategoryID),
+    EventID INT NOT NULL,
+    CONSTRAINT FK_Category_Event FOREIGN KEY (EventID)
+        REFERENCES Event(EventID),
+    CategoryName VARCHAR(100) NOT NULL,
+    Description VARCHAR(500),
+    EntryFee DECIMAL(10,2) DEFAULT 0
+);
+
+
+-- ============================================
+-- 6. ENROLMENT TABLE
+-- ============================================
+CREATE TABLE Enrolment (
+    EnrolmentID INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (EnrolmentID),
+    ParticipantID INT NOT NULL,
+    CONSTRAINT FK_Enrolment_Participant FOREIGN KEY (ParticipantID)
+        REFERENCES Users(UserID),
+    EventID INT NOT NULL,
+    CONSTRAINT FK_Enrolment_Event FOREIGN KEY (EventID)
+        REFERENCES Event(EventID),
+    CategoryID INT NOT NULL,
+    CONSTRAINT FK_Enrolment_Category FOREIGN KEY (CategoryID)
+        REFERENCES Category(CategoryID),
+    EnrolmentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Status VARCHAR(20) DEFAULT 'Pending',
+    CONSTRAINT UQ_Enrolment UNIQUE (ParticipantID, EventID)
+);
+
