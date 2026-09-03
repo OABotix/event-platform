@@ -17,7 +17,6 @@ CREATE TABLE Role (
     RoleName VARCHAR(50) NOT NULL UNIQUE
 );
 
-
 -- ============================================
 -- 2. EVENT TYPE TABLE
 -- ============================================
@@ -26,7 +25,6 @@ CREATE TABLE EventType (
     PRIMARY KEY (EventTypeID),
     TypeName VARCHAR(50) NOT NULL UNIQUE
 );
-
 
 -- ============================================
 -- 3. USER TABLE
@@ -66,7 +64,6 @@ CREATE TABLE Event (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-
 -- ============================================
 -- 5. CATEGORY TABLE
 -- ============================================
@@ -80,7 +77,6 @@ CREATE TABLE Category (
     Description VARCHAR(500),
     EntryFee DECIMAL(10,2) DEFAULT 0
 );
-
 
 -- ============================================
 -- 6. ENROLMENT TABLE
@@ -102,3 +98,17 @@ CREATE TABLE Enrolment (
     CONSTRAINT UQ_Enrolment UNIQUE (ParticipantID, EventID)
 );
 
+-- ============================================
+-- 7. RESULT TABLE
+-- ============================================
+CREATE TABLE Result (
+    ResultID INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (ResultID),
+    EnrolmentID INT NOT NULL,
+    CONSTRAINT FK_Result_Enrolment FOREIGN KEY (EnrolmentID)
+        REFERENCES Enrolment(EnrolmentID),
+    FinishTime TIME NOT NULL,
+    FinishPosition INT NOT NULL,
+    PublishedAt DATETIME,
+    CONSTRAINT UQ_Result_Enrolment UNIQUE (EnrolmentID)
+);
