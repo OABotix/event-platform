@@ -45,3 +45,23 @@ CREATE TABLE Users (
     CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ============================================
+-- 4. EVENT TABLE
+-- ============================================
+CREATE TABLE Event (
+    EventID INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (EventID),
+    OrganiserID INT NOT NULL,
+    CONSTRAINT FK_Event_Organiser FOREIGN KEY (OrganiserID)
+        REFERENCES Users(UserID),
+    EventTypeID INT NOT NULL,
+    CONSTRAINT FK_Event_EventType FOREIGN KEY (EventTypeID)
+        REFERENCES EventType(EventTypeID),
+    EventName VARCHAR(200) NOT NULL,
+    Description TEXT NOT NULL,
+    EventDate DATETIME NOT NULL,
+    Location VARCHAR(200) NOT NULL,
+    Distance DECIMAL(10,2) NOT NULL,
+    EventBanner VARCHAR(500),
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
