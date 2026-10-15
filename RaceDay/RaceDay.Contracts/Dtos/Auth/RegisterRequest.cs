@@ -1,6 +1,6 @@
 ﻿namespace RaceDay.Contracts.Dtos.Auth
 {
-    internal class RegisterRequest
+    public class RegisterRequest
     {
         public string FullName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;

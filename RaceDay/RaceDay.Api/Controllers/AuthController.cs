@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RaceDay.Api.Data;
@@ -24,8 +23,12 @@ namespace RaceDay.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
+
+
             if (request.Role != "Organiser" && request.Role != "Participant")
+            {
                 return BadRequest(new { message = "Role must be 'Organiser' or 'Participant'" });
+            }
 
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
                 return Conflict(new { message = "Email already registered" });
