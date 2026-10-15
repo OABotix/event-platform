@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RaceDay.Contracts.Dtos.Enrolments
+﻿namespace RaceDay.Contracts.Dtos.Enrolments
 {
-    internal class CreateEnrolmentRequest
+    public class CreateEnrolmentRequest
     {
+        public int EventId { get; set; }
+        public int CategoryId { get; set; }
     }
 }

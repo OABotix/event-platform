@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RaceDay.Contracts.Dtos.Results
+﻿namespace RaceDay.Contracts.Dtos.Results
 {
-    internal class ResultDto
+    public class ResultDto
     {
+        public int ResultId { get; set; }
+        public int EnrolmentId { get; set; }
+        public string ParticipantName { get; set; } = string.Empty;
+        public string EventName { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public DateTime EventDate { get; set; }
+        public TimeSpan FinishTime { get; set; }
+        public int FinishPosition { get; set; }
+        public DateTime? PublishedAt { get; set; }
     }
 }

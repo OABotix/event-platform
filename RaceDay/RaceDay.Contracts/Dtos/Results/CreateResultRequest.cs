@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RaceDay.Contracts.Dtos.Results
+﻿namespace RaceDay.Contracts.Dtos.Results
 {
-    internal class CreateResultRequest
+    public class CreateResultRequest
     {
+        public int EnrolmentId { get; set; }
+        public TimeSpan FinishTime { get; set; }
+        public int FinishPosition { get; set; }
     }
 }
