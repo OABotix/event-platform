@@ -20,20 +20,27 @@ namespace RaceDay.Api.Controllers
             _passwordHasher = passwordHasher;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        // POST /api/auth/register/organiser
+        [HttpPost("register/organiser")]
+        public async Task<IActionResult> RegisterOrganiser([FromBody] RegisterRequest request)
         {
+            return await RegisterUser(request, "Organiser");
+        }
 
+        // POST /api/auth/register
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterParticipant([FromBody] RegisterRequest request)
+        {
+            return await RegisterUser(request, "Participant");
+        }
 
-            if (request.Role != "Organiser" && request.Role != "Participant")
-            {
-                return BadRequest(new { message = "Role must be 'Organiser' or 'Participant'" });
-            }
-
+        // Shared private method - keeps code DRY
+        private async Task<IActionResult> RegisterUser(RegisterRequest request, string roleName)
+        {
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
                 return Conflict(new { message = "Email already registered" });
 
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == request.Role);
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
             if (role == null)
                 return BadRequest(new { message = "Invalid role" });
 
@@ -51,7 +58,7 @@ namespace RaceDay.Api.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(Register), new AuthResponse
+            return CreatedAtAction(nameof(Login), new AuthResponse
             {
                 UserId = user.UserId,
                 FullName = user.FullName,
@@ -60,6 +67,7 @@ namespace RaceDay.Api.Controllers
             });
         }
 
+        // POST /api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -86,6 +94,7 @@ namespace RaceDay.Api.Controllers
             });
         }
 
+        // POST /api/auth/logout
         [HttpPost("logout")]
         public IActionResult Logout()
         {

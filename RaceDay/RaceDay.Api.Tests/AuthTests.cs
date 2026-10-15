@@ -6,9 +6,6 @@ using RaceDay.Api.Data;
 using RaceDay.Api.Models;
 using RaceDay.Contracts.Dtos.Auth;
 using Xunit;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using System.Collections.Generic;
 
 namespace RaceDay.Api.Tests
 {
@@ -21,20 +18,42 @@ namespace RaceDay.Api.Tests
             return new RaceDayDbContext(options);
         }
 
+        private AuthController GetController(RaceDayDbContext context)
+        {
+            return new AuthController(context, new PasswordHasher<User>());
+        }
+
         [Fact]
-        public async Task Register_ValidData_ReturnsCreated()
+        public async Task RegisterOrganiser_ValidData_ReturnsCreated()
         {
             var context = GetContext();
             context.Roles.Add(new Role { RoleName = "Organiser" });
             await context.SaveChangesAsync();
 
-            var controller = new AuthController(context, new PasswordHasher<User>());
-            var result = await controller.Register(new RegisterRequest
+            var controller = GetController(context);
+            var result = await controller.RegisterOrganiser(new RegisterRequest
             {
                 FullName = "Test",
                 Email = "t@t.com",
-                Password = "Pass123!",
-                Role = "Organiser"
+                Password = "Pass123!"
+            });
+
+            Assert.IsType<CreatedAtActionResult>(result);
+        }
+
+        [Fact]
+        public async Task RegisterParticipant_ValidData_ReturnsCreated()
+        {
+            var context = GetContext();
+            context.Roles.Add(new Role { RoleName = "Participant" });
+            await context.SaveChangesAsync();
+
+            var controller = GetController(context);
+            var result = await controller.RegisterParticipant(new RegisterRequest
+            {
+                FullName = "Test",
+                Email = "t@t.com",
+                Password = "Pass123!"
             });
 
             Assert.IsType<CreatedAtActionResult>(result);
@@ -47,17 +66,16 @@ namespace RaceDay.Api.Tests
             context.Roles.Add(new Role { RoleName = "Organiser" });
             await context.SaveChangesAsync();
 
-            var controller = new AuthController(context, new PasswordHasher<User>());
+            var controller = GetController(context);
             var request = new RegisterRequest
             {
                 FullName = "Test",
                 Email = "t@t.com",
-                Password = "Pass123!",
-                Role = "Organiser"
+                Password = "Pass123!"
             };
 
-            await controller.Register(request);
-            var result = await controller.Register(request);
+            await controller.RegisterOrganiser(request);
+            var result = await controller.RegisterOrganiser(request);
 
             Assert.IsType<ConflictObjectResult>(result);
         }
@@ -69,31 +87,12 @@ namespace RaceDay.Api.Tests
             context.Roles.Add(new Role { RoleName = "Organiser" });
             await context.SaveChangesAsync();
 
-            var controller = new AuthController(
-                context,
-                new PasswordHasher<User>()
-            );
-
-            var httpContext = new DefaultHttpContext();
-
-            httpContext.Features.Set<ISessionFeature>(
-                new TestSessionFeature
-                {
-                    Session = new TestSession()
-                }
-            );
-
-            controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = httpContext
-            };
-
-            await controller.Register(new RegisterRequest
+            var controller = GetController(context);
+            await controller.RegisterOrganiser(new RegisterRequest
             {
                 FullName = "Test",
                 Email = "t@t.com",
-                Password = "Pass123!",
-                Role = "Organiser"
+                Password = "Pass123!"
             });
 
             var result = await controller.Login(new LoginRequest
@@ -112,13 +111,12 @@ namespace RaceDay.Api.Tests
             context.Roles.Add(new Role { RoleName = "Organiser" });
             await context.SaveChangesAsync();
 
-            var controller = new AuthController(context, new PasswordHasher<User>());
-            await controller.Register(new RegisterRequest
+            var controller = GetController(context);
+            await controller.RegisterOrganiser(new RegisterRequest
             {
                 FullName = "Test",
                 Email = "t@t.com",
-                Password = "Pass123!",
-                Role = "Organiser"
+                Password = "Pass123!"
             });
 
             var result = await controller.Login(new LoginRequest
