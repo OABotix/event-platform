@@ -252,14 +252,17 @@ The GitHub Actions workflow (`.github/workflows/part2-ci.yml`) runs on every pus
 5. Runs all unit tests
 
 **Screenshot of Successful CI/CD Build:**
+<img width="900" height="416" alt="Part 2 CI/CD Build" src="https://github.com/user-attachments/assets/c0107604-839d-44fe-896f-6d912b0699bf" />
 
-![Part 2 CI/CD Build](INSERT_YOUR_PART_2_SCREENSHOT_URL_HERE)
 
 ---
 
 ### Video Presentation
 
-[Watch the Part 2 demonstration video](INSERT_YOUR_PART_2_YOUTUBE_LINK_HERE)
+[Watch the Part 2 demonstration video](https://youtu.be/qN3sG5uR8x0)
+
+[![Watch PART 2 Demonstration Video](https://img.shields.io/badge/Watch-Video-red)](https://youtu.be/qN3sG5uR8x0)
+
 
 ---
 
