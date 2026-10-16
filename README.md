@@ -259,9 +259,9 @@ The GitHub Actions workflow (`.github/workflows/part2-ci.yml`) runs on every pus
 
 ### Video Presentation
 
-[Watch the Part 2 demonstration video](https://youtu.be/qN3sG5uR8x0)
+[Watch the Part 2 demonstration video](https://youtu.be/L67DBCfMdkM)
 
-[![Watch PART 2 Demonstration Video](https://img.shields.io/badge/Watch-Video-red)](https://youtu.be/qN3sG5uR8x0)
+[![Watch PART 2 Demonstration Video](https://img.shields.io/badge/Watch-Video-red)](https://youtu.be/L67DBCfMdkM)
 
 
 ---
