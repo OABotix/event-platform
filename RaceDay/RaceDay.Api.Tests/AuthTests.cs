@@ -6,6 +6,8 @@ using RaceDay.Api.Data;
 using RaceDay.Api.Models;
 using RaceDay.Contracts.Dtos.Auth;
 using Xunit;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RaceDay.Api.Tests
 {
@@ -20,7 +22,53 @@ namespace RaceDay.Api.Tests
 
         private AuthController GetController(RaceDayDbContext context)
         {
-            return new AuthController(context, new PasswordHasher<User>());
+            var controller = new AuthController(
+                context,
+                new PasswordHasher<User>()
+            );
+
+            var httpContext = new DefaultHttpContext();
+            httpContext.Session = new TestSession();
+
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = httpContext
+            };
+
+            return controller;
+        }
+
+        private class TestSession : ISession
+        {
+            private readonly Dictionary<string, byte[]> _store = new();
+
+            public bool IsAvailable => true;
+
+            public string Id => Guid.NewGuid().ToString();
+
+            public IEnumerable<string> Keys => _store.Keys;
+
+            public void Clear() => _store.Clear();
+
+            public Task CommitAsync(
+                CancellationToken cancellationToken = default
+            ) => Task.CompletedTask;
+
+            public Task LoadAsync(
+                CancellationToken cancellationToken = default
+            ) => Task.CompletedTask;
+
+            public void Remove(string key) => _store.Remove(key);
+
+            public void Set(string key, byte[] value)
+                => _store[key] = value;
+
+            public bool TryGetValue(
+                string key,
+                [MaybeNullWhen(false)] out byte[] value)
+            {
+                return _store.TryGetValue(key, out value!);
+            }
         }
 
         [Fact]
