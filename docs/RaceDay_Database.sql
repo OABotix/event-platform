@@ -9,9 +9,9 @@ CREATE DATABASE RaceDayDB;
 USE RaceDayDB;
 
 -- ============================================
--- 1. ROLE TABLE
+-- 1. Roles TABLE
 -- ============================================
-CREATE TABLE Role (
+CREATE TABLE Roles (
     RoleID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (RoleID),
     RoleName VARCHAR(50) NOT NULL UNIQUE
@@ -20,7 +20,7 @@ CREATE TABLE Role (
 -- ============================================
 -- 2. EVENT TYPE TABLE
 -- ============================================
-CREATE TABLE EventType (
+CREATE TABLE EventTypes (
     EventTypeID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (EventTypeID),
     TypeName VARCHAR(50) NOT NULL UNIQUE
@@ -34,7 +34,7 @@ CREATE TABLE Users (
     PRIMARY KEY (UserID),
     RoleID INT NOT NULL,
     CONSTRAINT FK_Users_Role FOREIGN KEY (RoleID)
-        REFERENCES Role(RoleID),
+        REFERENCES Roles(RoleID),
     FullName VARCHAR(100) NOT NULL,
     Email VARCHAR(255) NOT NULL UNIQUE,
     PasswordHash VARCHAR(500) NOT NULL,
@@ -44,9 +44,9 @@ CREATE TABLE Users (
 );
 
 -- ============================================
--- 4. EVENT TABLE
+-- 4. EVENTS TABLE
 -- ============================================
-CREATE TABLE Event (
+CREATE TABLE Events (
     EventID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (EventID),
     OrganiserID INT NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE Event (
         REFERENCES Users(UserID),
     EventTypeID INT NOT NULL,
     CONSTRAINT FK_Event_EventType FOREIGN KEY (EventTypeID)
-        REFERENCES EventType(EventTypeID),
+        REFERENCES EventTypes(EventTypeID),
     EventName VARCHAR(200) NOT NULL,
     Description TEXT NOT NULL,
     EventDate DATETIME NOT NULL,
@@ -65,23 +65,23 @@ CREATE TABLE Event (
 );
 
 -- ============================================
--- 5. CATEGORY TABLE
+-- 5. Categories TABLE
 -- ============================================
-CREATE TABLE Category (
+CREATE TABLE Categories (
     CategoryID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (CategoryID),
     EventID INT NOT NULL,
     CONSTRAINT FK_Category_Event FOREIGN KEY (EventID)
-        REFERENCES Event(EventID),
+        REFERENCES Events(EventID),
     CategoryName VARCHAR(100) NOT NULL,
     Description VARCHAR(500),
     EntryFee DECIMAL(10,2) DEFAULT 0
 );
 
 -- ============================================
--- 6. ENROLMENT TABLE
+-- 6. ENROLMENTS TABLE
 -- ============================================
-CREATE TABLE Enrolment (
+CREATE TABLE Enrolments (
     EnrolmentID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (EnrolmentID),
     ParticipantID INT NOT NULL,
@@ -89,24 +89,24 @@ CREATE TABLE Enrolment (
         REFERENCES Users(UserID),
     EventID INT NOT NULL,
     CONSTRAINT FK_Enrolment_Event FOREIGN KEY (EventID)
-        REFERENCES Event(EventID),
+        REFERENCES Events(EventID),
     CategoryID INT NOT NULL,
     CONSTRAINT FK_Enrolment_Category FOREIGN KEY (CategoryID)
-        REFERENCES Category(CategoryID),
+        REFERENCES Categories(CategoryID),
     EnrolmentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     Status VARCHAR(20) DEFAULT 'Pending',
     CONSTRAINT UQ_Enrolment UNIQUE (ParticipantID, EventID)
 );
 
 -- ============================================
--- 7. RESULT TABLE
+-- 7. RESULTS TABLE
 -- ============================================
-CREATE TABLE Result (
+CREATE TABLE Results (
     ResultID INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (ResultID),
     EnrolmentID INT NOT NULL,
     CONSTRAINT FK_Result_Enrolment FOREIGN KEY (EnrolmentID)
-        REFERENCES Enrolment(EnrolmentID),
+        REFERENCES Enrolments(EnrolmentID),
     FinishTime TIME NOT NULL,
     FinishPosition INT NOT NULL,
     PublishedAt DATETIME,
@@ -121,7 +121,7 @@ CREATE TABLE Result (
 -- ROLES
 -- ============================================
 
-INSERT INTO Role (RoleName) VALUES
+INSERT INTO Roles (RoleName) VALUES
 ('Organiser'),
 ('Participant');
 
@@ -129,7 +129,7 @@ INSERT INTO Role (RoleName) VALUES
 -- EVENT TYPES
 -- ============================================
 
-INSERT INTO EventType (TypeName) VALUES
+INSERT INTO EventTypes (TypeName) VALUES
 ('Run'),
 ('Walk'),
 ('Cycle'),
@@ -170,7 +170,7 @@ VALUES
 -- ============================================
 
 -- Running Events (EventIDs 1-6)
-INSERT INTO Event
+INSERT INTO Events
 (OrganiserID, EventTypeID, EventName, Description, EventDate, Location, Distance)
 VALUES
 (1, 1, 'Comrades Marathon', 'The iconic ultra-marathon between Durban and Pietermaritzburg, attracting thousands of runners from South Africa and around the world.', '2026-06-14 05:30:00', 'Durban to Pietermaritzburg, KwaZulu-Natal', 89.00 ),
@@ -182,7 +182,7 @@ VALUES
 
 
 -- Walking Events (EventIDs 7-9)
-INSERT INTO Event
+INSERT INTO Events
 (OrganiserID, EventTypeID, EventName, Description, EventDate, Location, Distance)
 VALUES
 (4, 2, 'Cape Town Big Walk', 'A community-focused walking event encouraging participants of all fitness levels to enjoy an active day outdoors.', '2026-09-27 07:00:00', 'Cape Town, Western Cape', 10.00 ),
@@ -191,7 +191,7 @@ VALUES
 
 
 -- Cycling Events (EventIDs 10-13)
-INSERT INTO Event
+INSERT INTO Events
 (OrganiserID, EventTypeID, EventName, Description, EventDate, Location, Distance)
 VALUES
 (2, 3, 'Cape Town Cycle Tour', 'South Africa''s iconic mass-participation cycling event around the Cape Peninsula.', '2026-03-08 06:00:00', 'Cape Town, Western Cape', 109.00 ),
@@ -201,7 +201,7 @@ VALUES
 
 
 -- Swimming Events (EventIDs 14-15)
-INSERT INTO Event
+INSERT INTO Events
 (OrganiserID, EventTypeID, EventName, Description, EventDate, Location, Distance)
 VALUES
 (4, 4, 'aQuellé Midmar Mile', 'One of South Africa''s best-known open-water swimming events, attracting swimmers of different ages and abilities.', '2026-02-14 08:00:00', 'Midmar Dam, KwaZulu-Natal', 1.60 ),
@@ -209,7 +209,7 @@ VALUES
 
 
 -- Triathlon Events (EventIDs 16-17)
-INSERT INTO Event
+INSERT INTO Events
 (OrganiserID, EventTypeID, EventName, Description, EventDate, Location, Distance)
 VALUES
 (3, 5, 'IRONMAN South Africa', 'A full-distance triathlon in Nelson Mandela Bay combining a 3.8km swim, 180km cycle and 42.2km run.', '2026-04-19 06:30:00', 'Gqeberha, Eastern Cape', 226.00 ),
@@ -220,27 +220,27 @@ VALUES
 -- ============================================
 
 -- Comrades Marathon (EventID 1)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (1, 'Ultra Marathon', 'Approximately 89km ultra-marathon route between Durban and Pietermaritzburg.', 750.00);
 
 -- Two Oceans Marathon (EventID 2)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (2, '56km Ultra Marathon', 'The iconic Two Oceans Ultra Marathon route.', 700.00),
 (2, '21.1km Half Marathon', 'Half marathon route through the Cape Town southern suburbs.', 400.00);
 
 -- Two Oceans Half Marathon (EventID 3)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (3, '21.1km Half Marathon', 'Standard half marathon category.', 400.00),
 (3, '21.1km Junior', 'Junior half marathon category subject to event eligibility requirements.', 300.00);
 
 -- Gun Run (EventID 4)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (4, '21.1km Half Marathon', 'Half marathon road race through Cape Town.', 300.00),
@@ -248,7 +248,7 @@ VALUES
 (4, '5km Fun Run', 'Short community-focused fun run.', 120.00);
 
 -- Soweto Marathon (EventID 5)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (5, '42.2km Marathon', 'Full marathon distance through Soweto.', 450.00),
@@ -256,42 +256,42 @@ VALUES
 (5, '10km Road Race', '10km road running event.', 200.00);
 
 -- Absa Run Your City (EventID 6)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (6, '10km Road Race', '10km mass participation road race.', 180.00),
 (6, '10km Corporate Entry', '10km corporate participation category.', 200.00);
 
 -- Cape Town Big Walk (EventID 7)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (7, '10km Walk', '10km community walking route.', 150.00),
 (7, '5km Walk', 'Shorter 5km walking route.', 100.00);
 
 -- Durban Beach Walk (EventID 8)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (8, '10km Beach Walk', '10km beachfront walking route.', 150.00),
 (8, '5km Family Walk', 'Family-friendly 5km route.', 100.00);
 
 -- Johannesburg Community Walk (EventID 9)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (9, '5km Community Walk', '5km community walking route.', 80.00),
 (9, '5km Family Entry', 'Family-oriented 5km walking category.', 60.00);
 
 -- Cape Town Cycle Tour (EventID 10)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (10, '109km Main Route', 'Full Cape Peninsula cycling route.', 940.00),
 (10, 'Tandem Entry', 'Tandem cycling category for two riders.', 1200.00);
 
 -- aQuellé Tour Durban (EventID 11)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (11, '100km Road Race', 'Long-distance road cycling route.', 1450.00),
@@ -299,27 +299,27 @@ VALUES
 (11, '28km Fun Ride', 'Short recreational cycling route.', 300.00);
 
 -- Ride Joburg (EventID 12)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (12, '97km Road Race', 'Main mass-participation road cycling route.', 950.00),
 (12, '35km Short Ride', 'Shorter cycling route for recreational riders.', 450.00);
 
 -- Cape Town Cycle Tour 42km (EventID 13)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (13, '42km Route', 'Shorter Cape Town Cycle Tour route.', 500.00);
 
 -- Midmar Mile (EventID 14)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (14, '1.6km Open Water Swim', 'Standard Midmar Mile open-water swimming distance.', 250.00),
 (14, '1.6km Junior Swim', 'Junior open-water swimming category.', 200.00);
 
 -- Cape Town Open Water Swim (EventID 15)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (15, '5km Open Water Swim', '5km open-water swimming event.', 350.00),
@@ -327,13 +327,13 @@ VALUES
 (15, '1.5km Open Water Swim', 'Short recreational open-water swim.', 200.00);
 
 -- IRONMAN South Africa (EventID 16)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (16, 'Full IRONMAN', '3.8km swim, 180km bike and 42.2km run.', 9410.00);
 
 -- IRONMAN 70.3 South Africa (EventID 17)
-INSERT INTO Category
+INSERT INTO Categories
 (EventID, CategoryName, Description, EntryFee)
 VALUES
 (17, 'IRONMAN 70.3', '1.9km swim, 90km bike and 21.1km run.', 6500.00);
@@ -343,7 +343,7 @@ VALUES
 -- ============================================
 
 -- Lerato Molefe (UserID 5)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (5, 1, 1, '2025-12-10 09:15:00', 'Confirmed'),
@@ -353,7 +353,7 @@ VALUES
 (5, 6, 11, '2026-07-15 09:00:00', 'Confirmed');
 
 -- James van Wyk (UserID 6)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (6, 1, 1, '2025-12-05 08:45:00', 'Confirmed'),
@@ -363,7 +363,7 @@ VALUES
 (6, 17, 26, '2026-05-15 10:00:00', 'Confirmed');
 
 -- Anele Jacobs (UserID 7)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (7, 3, 3, '2026-01-18 13:25:00', 'Confirmed'),
@@ -373,7 +373,7 @@ VALUES
 (7, 11, 17, '2026-02-10 11:00:00', 'Confirmed');
 
 -- Sipho Mthembu (UserID 8)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (8, 5, 8, '2026-06-12 11:00:00', 'Confirmed'),
@@ -382,7 +382,7 @@ VALUES
 (8, 9, 18, '2026-09-01 10:00:00', 'Pending');
 
 -- Megan Williams (UserID 9)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (9, 2, 3, '2026-01-22 09:00:00', 'Confirmed'),
@@ -391,7 +391,7 @@ VALUES
 (9, 15, 28, '2026-09-15 11:00:00', 'Confirmed');
 
 -- Daniel Naidoo (UserID 10)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (10, 10, 12, '2025-11-25 15:00:00', 'Confirmed'),
@@ -400,7 +400,7 @@ VALUES
 (10, 13, 23, '2026-01-15 10:00:00', 'Confirmed');
 
 -- Zanele Khumalo (UserID 11)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (11, 5, 9, '2026-05-20 13:00:00', 'Confirmed'),
@@ -409,7 +409,7 @@ VALUES
 (11, 14, 25, '2026-01-10 09:00:00', 'Confirmed');
 
 -- Ryan Botha (UserID 12)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (12, 2, 2, '2026-01-10 12:30:00', 'Confirmed'),
@@ -418,7 +418,7 @@ VALUES
 (12, 4, 5, '2026-07-01 08:00:00', 'Confirmed');
 
 -- Kayla Petersen (UserID 13)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (13, 4, 7, '2026-07-20 08:45:00', 'Confirmed'),
@@ -427,7 +427,7 @@ VALUES
 (13, 8, 16, '2026-08-01 09:00:00', 'Confirmed');
 
 -- Andile Mokoena (UserID 14)
-INSERT INTO Enrolment
+INSERT INTO Enrolments
 (ParticipantID, EventID, CategoryID, EnrolmentDate, Status)
 VALUES
 (14, 5, 7, '2026-04-10 15:30:00', 'Confirmed'),
@@ -440,7 +440,7 @@ VALUES
 -- ============================================
 
 -- Results referencing Enrolment IDs (1-34)
-INSERT INTO Result
+INSERT INTO Results
 (EnrolmentID, FinishTime, FinishPosition, PublishedAt)
 VALUES
 -- Comrades Marathon
@@ -492,16 +492,16 @@ VALUES
 -- VERIFY DATA
 -- ============================================
 
-SELECT * FROM Role;
+SELECT * FROM Roles;
 
-SELECT * FROM EventType;
+SELECT * FROM EventTypes;
 
 SELECT * FROM Users;
 
-SELECT * FROM Event;
+SELECT * FROM Events;
 
 SELECT * FROM Category;
 
-SELECT * FROM Enrolment;
+SELECT * FROM Enrolments;
 
-SELECT * FROM Result;
+SELECT * FROM Results;
