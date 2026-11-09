@@ -1,0 +1,40 @@
+﻿@model List<RaceDay.Contracts.Dtos.Results.ResultDto>
+@{
+    ViewData["Title"] = "My Results";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">My Race Results</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="card border-0">
+            <div class="card-body text-center p-5">
+                <div class="display-4 mb-2">🏅</div>
+                <p class="text-muted mb-0">No results yet. Results appear here after organisers publish them.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr><th>Event</th><th>Date</th><th>Category</th><th>Finish Time</th><th>Position</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@r.EventName</td>
+                            <td class="text-muted">@r.EventDate.ToString("dd MMM yyyy")</td>
+                            <td>@r.CategoryName</td>
+                            <td><span class="badge bg-rd-green-soft text-rd-green">@r.FinishTime</span></td>
+                            <td><span class="badge bg-warning text-dark">#@r.FinishPosition</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

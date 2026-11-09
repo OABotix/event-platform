@@ -1,0 +1,48 @@
+@model List<RaceDay.Contracts.Dtos.Results.ResultDto>
+@{
+    ViewData["Title"] = "Results"; int eventId = ViewBag.EventId;
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Event Results</h1>
+    <div class="table-responsive mb-4">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr><th>Participant</th><th>Category</th><th>Time</th><th>Position</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@r.ParticipantName</td>
+                        <td>@r.CategoryName</td>
+                        <td><span class="badge bg-rd-green-soft text-rd-green">@r.FinishTime</span></td>
+                        <td><span class="badge bg-warning text-dark">#@r.FinishPosition</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h3 class="mb-3">Capture New Result</h3>
+            <form asp-action="CaptureResult" asp-route-eventId="@eventId" method="post">
+                <div class="row g-2">
+                    <div class="col-md-3">
+                        <input name="EnrolmentId" type="number" class="form-control" placeholder="Enrolment ID" required />
+                    </div>
+                    <div class="col-md-3">
+                        <input name="FinishTime" class="form-control" placeholder="HH:MM:SS" required />
+                    </div>
+                    <div class="col-md-3">
+                        <input name="FinishPosition" type="number" class="form-control" placeholder="Position" required />
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-success w-100">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

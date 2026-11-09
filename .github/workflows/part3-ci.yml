@@ -1,0 +1,30 @@
+name: RaceDay CI
+
+on:
+  push:
+    branches: [ main, part3-mvc ]
+  pull_request:
+    branches: [ main, part3-mvc ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      # Note: We target the .sln file inside the RaceDay folder
+      run: dotnet restore RaceDay/RaceDay.sln
+
+    - name: Build solution
+      run: dotnet build RaceDay/RaceDay.sln --no-restore --configuration Release
+
+    - name: Run tests
+      run: dotnet test RaceDay/RaceDay.Api.Tests/RaceDay.Api.Tests.csproj --no-build --configuration Release

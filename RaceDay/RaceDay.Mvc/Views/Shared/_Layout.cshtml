@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RaceDay.Mvc</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/RaceDay.Mvc.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">RaceDay</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav ms-auto">
+                        @{
+                            var userId = Context.Session.GetInt32("UserId");
+                            var role = Context.Session.GetString("Role");
+                            var displayName = Context.Session.GetString("DisplayName");
+                        }
+                        @if (userId == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">Register</a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="registerDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="RegisterParticipant">As Participant</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="RegisterOrganiser">As Organiser</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else if (role == "Organiser")
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Organiser" asp-action="Index">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Organiser" asp-action="Events">My Events</a></li>
+                            <li class="nav-item">
+                                <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link">Logout (@displayName)</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="Index">Events</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="MyEvents">My Events</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="MyResults">My Results</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="Profile">Profile</a></li>
+                            <li class="nav-item">
+                                <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link">Logout (@displayName)</button>
+                                </form>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span>&copy; 2026 — <strong class="text-rd-green">RaceDay</strong></span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-decoration-none">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

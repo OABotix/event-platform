@@ -11,6 +11,8 @@ builder.Services.AddDbContext<RaceDayDbContext>(options =>
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
+builder.Services.AddScoped<RaceDay.Api.Services.BlobStorageService>();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

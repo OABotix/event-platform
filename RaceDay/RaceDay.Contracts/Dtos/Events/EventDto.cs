@@ -13,6 +13,7 @@
         public string EventTypeName { get; set; } = string.Empty;
         public int OrganiserId { get; set; }
         public string OrganiserName { get; set; } = string.Empty;
+        public string? BannerImageUrl { get; set; }
         public List<CategoryDto> Categories { get; set; } = new();
     }
 }
