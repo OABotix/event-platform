@@ -519,8 +519,9 @@ The workflow process includes:
 5. Running the available unit tests.
 
 **Screenshot of Successful Part 3 CI/CD Build:**
+<img width="832" height="267" alt="Part 3 CI/CD Build" src="https://github.com/user-attachments/assets/1e618f0b-7ec5-46bc-9df9-ae4f773254aa" />
+<img width="627" height="345" alt="Part 3 CI/CD Build" src="https://github.com/user-attachments/assets/d6252bff-eaf8-4682-b208-a726a1f100a2" />
 
-<img width="1242" height="485" alt="Part 3 CI/CD Build" src="https://github.com/user-attachments/assets/1e3f6cd3-4644-41d7-9667-5c827456c3b5" />
 
 ---
 
