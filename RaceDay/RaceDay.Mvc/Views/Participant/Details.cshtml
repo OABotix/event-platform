@@ -1,0 +1,38 @@
+@model RaceDay.Contracts.Dtos.Events.EventDto
+@{ ViewData["Title"] = Model.EventName; }
+
+<div class="container mt-4">
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+
+    <h1>@Model.EventName</h1>
+    <p>@Model.Description</p>
+    <p><strong>Date:</strong> @Model.EventDate.ToString("dd MMM yyyy HH:mm")</p>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>Distance:</strong> @Model.Distance km</p>
+    <p><strong>Type:</strong> @Model.EventTypeName</p>
+
+    <h3 class="mt-4">Available Categories</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Category</th><th>Description</th><th>Fee</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var cat in Model.Categories)
+            {
+            <tr>
+                <td>@cat.CategoryName</td>
+                <td>@cat.Description</td>
+                <td>R @cat.EntryFee</td>
+                <td>
+                    <form asp-action="EnterEvent" method="post" class="d-inline">
+                        <input type="hidden" name="eventId" value="@Model.EventId" />
+                        <input type="hidden" name="categoryId" value="@cat.CategoryId" />
+                        <button type="submit" class="btn btn-sm btn-success">Enter Event</button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
