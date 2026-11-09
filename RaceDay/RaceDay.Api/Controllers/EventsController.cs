@@ -132,6 +132,26 @@ namespace RaceDay.Api.Controllers
             return CreatedAtAction(nameof(GetEvent), new { id = ev.EventId }, ev.EventId);
         }
 
+        [HttpPost("{id}/banner")]
+        public async Task<IActionResult> UploadBanner(int id, IFormFile file,
+    [FromServices] RaceDay.Api.Services.BlobStorageService blobStorage)
+        {
+            if (!SessionHelper.IsOrganiser(HttpContext))
+                return Forbidden("Only Organisers can upload banners");
+
+            var userId = SessionHelper.GetUserId(HttpContext)!.Value;
+            var ev = await _context.Events.FindAsync(id);
+
+            if (ev == null) return NotFound();
+            if (ev.OrganiserId != userId) return Forbidden("You can only upload banners for your own events");
+
+            var url = await blobStorage.UploadAsync(file, "event-banners");
+            ev.BannerImageUrl = url;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { imageUrl = url });
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEvent(int id, [FromBody] UpdateEventRequest request)
         {

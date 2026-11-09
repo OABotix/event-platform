@@ -8,5 +8,6 @@
         public string Location { get; set; } = string.Empty;
         public decimal Distance { get; set; }
         public int EventTypeId { get; set; }
+        public string? BannerImageUrl { get; set; }
     }
 }
