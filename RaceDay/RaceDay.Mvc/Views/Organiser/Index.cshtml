@@ -1,33 +1,53 @@
 @model RaceDay.Mvc.ViewModels.OrganiserDashboardVm
-@{ ViewData["Title"] = "Dashboard"; }
+@{
+    ViewData["Title"] = "Dashboard";
+}
 
 <div class="container mt-4">
-    <h1>Organiser Dashboard</h1>
-    <a asp-action="CreateEvent" class="btn btn-success mb-3">Create New Event</a>
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="mb-0">Organiser Dashboard</h1>
+        <a asp-action="CreateEvent" class="btn btn-success px-4">+ Create New Event</a>
+    </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Event Name</th>
-                <th>Date</th>
-                <th>Enrolments</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var ev in Model.Events)
-            {
-            <tr>
-                <td>@ev.EventName</td>
-                <td>@ev.EventDate.ToString("dd MMM yyyy")</td>
-                <td>@ev.EnrolmentCount</td>
-                <td>
-                    <a asp-action="Categories" asp-route-eventId="@ev.EventId" class="btn btn-sm btn-primary">Categories</a>
-                    <a asp-action="Enrolments" asp-route-eventId="@ev.EventId" class="btn btn-sm btn-info">Enrolments</a>
-                    <a asp-action="Results" asp-route-eventId="@ev.EventId" class="btn btn-sm btn-warning">Results</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <p class="text-muted small mb-1">Events</p>
+                    <h2 class="mb-0">@Model.Events.Count</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <p class="text-muted small mb-1">Total Enrolments</p>
+                    <h2 class="mb-0">@Model.Events.Sum(e => e.EnrolmentCount)</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr><th>Event Name</th><th>Date</th><th>Enrolments</th><th class="text-end">Actions</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var ev in Model.Events)
+                {
+                    <tr>
+                        <td class="fw-semibold">@ev.EventName</td>
+                        <td class="text-muted">@ev.EventDate.ToString("dd MMM yyyy")</td>
+                        <td><span class="badge bg-rd-green-soft text-rd-green">@ev.EnrolmentCount</span></td>
+                        <td class="text-end">
+                            <a asp-action="Categories" asp-route-eventId="@ev.EventId" class="btn btn-sm btn-primary">Categories</a>
+                            <a asp-action="Enrolments" asp-route-eventId="@ev.EventId" class="btn btn-sm btn-info">Enrolments</a>
+                            <a asp-action="Results" asp-route-eventId="@ev.EventId" class="btn btn-sm btn-warning">Results</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

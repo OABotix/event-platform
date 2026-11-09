@@ -1,27 +1,41 @@
 @model RaceDay.Contracts.Dtos.Profile.ProfileDto
-@{ ViewData["Title"] = "My Profile"; }
+@{
+    ViewData["Title"] = "My Profile";
+}
 
 <div class="container mt-4">
-    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
 
-    <h1>My Profile</h1>
-    <form asp-action="Profile" method="post">
-        <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <input name="FullName" class="form-control" value="@Model.FullName" required />
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <h1 class="mb-4">My Profile</h1>
+                    <form asp-action="Profile" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input name="FullName" class="form-control" value="@Model.FullName" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" value="@Model.Email" disabled />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Profile Picture URL</label>
+                            <input name="ProfilePicture" class="form-control" value="@Model.ProfilePicture"
+                                   placeholder="Upload coming in Blob section" />
+                        </div>
+                        <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input class="form-control" value="@Model.Email" disabled />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Phone Number</label>
-            <input name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Profile Picture URL</label>
-            <input name="ProfilePicture" class="form-control" value="@Model.ProfilePicture" placeholder="Upload coming in Blob section" />
-        </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
+    </div>
 </div>

@@ -1,45 +1,53 @@
 @model List<RaceDay.Contracts.Dtos.Categories.CategoryDto>
-    @{ ViewData["Title"] = "Categories"; int eventId = ViewBag.EventId; }
+@{
+    ViewData["Title"] = "Categories"; int eventId = ViewBag.EventId;
+}
 
-    <div class="container mt-4">
+<div class="container mt-4">
     @if (TempData["Success"] != null)
     {
         <div class="alert alert-success">@TempData["Success"]</div>
     }
 
-        <h1>Event Categories</h1>
+    <h1 class="mb-4">Event Categories</h1>
 
-        <table class="table table-striped mb-4">
+    <div class="table-responsive mb-4">
+        <table class="table table-striped table-hover align-middle">
             <thead>
                 <tr><th>Name</th><th>Description</th><th>Fee</th></tr>
             </thead>
             <tbody>
                 @foreach (var c in Model)
-            {
-                <tr>
-                    <td>@c.CategoryName</td>
-                    <td>@c.Description</td>
-                    <td>R @c.EntryFee</td>
-                </tr>
-            }
+                {
+                    <tr>
+                        <td class="fw-semibold">@c.CategoryName</td>
+                        <td class="text-muted small">@c.Description</td>
+                        <td><span class="badge bg-rd-green-soft text-rd-green">R @c.EntryFee</span></td>
+                    </tr>
+                }
             </tbody>
         </table>
-
-        <h3>Add Category</h3>
-        <form asp-action="AddCategory" asp-route-eventId="@eventId" method="post">
-            <div class="row">
-                <div class="col-md-4">
-                    <input name="CategoryName" class="form-control mb-2" placeholder="Category Name" required />
-                </div>
-                <div class="col-md-4">
-                    <input name="Description" class="form-control mb-2" placeholder="Description" />
-                </div>
-                <div class="col-md-2">
-                    <input name="EntryFee" type="number" step="0.01" class="form-control mb-2" placeholder="Fee" required />
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-success">Add</button>
-                </div>
-            </div>
-        </form>
     </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h3 class="mb-3">Add Category</h3>
+            <form asp-action="AddCategory" asp-route-eventId="@eventId" method="post">
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <input name="CategoryName" class="form-control" placeholder="Category Name" required />
+                    </div>
+                    <div class="col-md-4">
+                        <input name="Description" class="form-control" placeholder="Description" />
+                    </div>
+                    <div class="col-md-2">
+                        <input name="EntryFee" type="number" step="0.01" class="form-control" placeholder="Fee" required />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success w-100">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

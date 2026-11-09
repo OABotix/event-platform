@@ -1,22 +1,263 @@
+﻿/* =========================================================
+   RaceDay — Green / Gold / Grey theme
+   ========================================================= */
+
+:root {
+    --rd-green: #0f5132;
+    --rd-green-hover: #146c43;
+    --rd-green-soft: #e6f0ea;
+    --rd-gold: #c9a227;
+    --rd-gold-hover: #a8861c;
+    --rd-gold-soft: #fbf4d9;
+    --rd-grey: #495057;
+    --rd-grey-soft: #e9ecef;
+    --rd-bg: #f6f7f4;
+    --rd-card: #ffffff;
+    --rd-border: #dde2dc;
+}
+
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: var(--rd-bg);
+    color: var(--rd-grey);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+a {
+    color: var(--rd-green);
+}
+
+    a:hover {
+        color: var(--rd-green-hover);
+    }
+
+/* ---------- Navbar ---------- */
+.navbar.bg-dark,
+.navbar {
+    background: linear-gradient(90deg, var(--rd-green) 0%, #0b3d25 100%) !important;
+    border-bottom: 3px solid var(--rd-gold) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,.12);
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: .5px;
+    color: #fff !important;
+}
+
+    .navbar-brand::before {
+        content: "🏁 ";
+        color: var(--rd-gold);
+        margin-right: 6px;
+    }
+
+.navbar .nav-link {
+    color: rgba(255,255,255,.85) !important;
+    font-weight: 500;
+}
+
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus {
+        color: var(--rd-gold) !important;
+    }
+
+.navbar .btn-link.nav-link {
+    text-decoration: none;
+    padding: .5rem 1rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary,
+.btn-success {
+    background-color: var(--rd-green);
+    border-color: var(--rd-green);
+    color: #fff;
+}
+
+    .btn-primary:hover,
+    .btn-success:hover,
+    .btn-primary:focus,
+    .btn-success:focus {
+        background-color: var(--rd-green-hover);
+        border-color: var(--rd-green-hover);
+        color: #fff;
+    }
+
+.btn-warning {
+    background-color: var(--rd-gold);
+    border-color: var(--rd-gold);
+    color: #3a2f00;
+    font-weight: 600;
+}
+
+    .btn-warning:hover {
+        background-color: var(--rd-gold-hover);
+        border-color: var(--rd-gold-hover);
+        color: #fff;
+    }
+
+.btn-info {
+    background-color: #d1d8d3;
+    border-color: #c2cac4;
+    color: var(--rd-green);
+}
+
+    .btn-info:hover {
+        background-color: #c0c9c2;
+        color: var(--rd-green-hover);
+    }
+
+.btn-outline-primary {
+    color: var(--rd-green);
+    border-color: var(--rd-green);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--rd-green);
+        color: #fff;
+    }
+
+.btn-outline-success {
+    color: var(--rd-green);
+    border-color: var(--rd-green);
+}
+
+    .btn-outline-success:hover {
+        background-color: var(--rd-green);
+        color: #fff;
+    }
+
+.btn-outline-secondary {
+    color: var(--rd-grey);
+    border-color: #b4bab3;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: var(--rd-grey);
+        color: #fff;
+    }
+
+/* ---------- Cards ---------- */
+.card {
+    border: 1px solid var(--rd-border);
+    border-radius: 14px;
+    background: var(--rd-card);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(15,81,50,.12);
+    }
+
+.card-title {
+    color: var(--rd-green);
+    font-weight: 700;
+}
+
+/* ---------- Forms ---------- */
+.form-control, .form-select {
+    border-radius: 10px;
+    border: 1px solid var(--rd-border);
+    background: #fff;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--rd-gold);
+        box-shadow: 0 0 0 .2rem rgba(201,162,39,.25);
+    }
+
+.form-label {
+    font-weight: 600;
+    color: var(--rd-green);
+    font-size: .9rem;
+}
+
+/* ---------- Tables ---------- */
+.table {
+    background: var(--rd-card);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .table thead th {
+        background: var(--rd-green);
+        color: #fff;
+        font-weight: 600;
+        border-color: var(--rd-green);
+    }
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: var(--rd-green-soft);
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: var(--rd-gold-soft);
+}
+
+/* ---------- Badges ---------- */
+.badge.bg-success {
+    background-color: var(--rd-green) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--rd-gold) !important;
+    color: #3a2f00 !important;
+}
+
+.badge.bg-secondary {
+    background-color: var(--rd-grey) !important;
+}
+
+/* ---------- Alerts ---------- */
+.alert-success {
+    background-color: var(--rd-green-soft);
+    border-color: #bfd8c8;
+    color: var(--rd-green);
+}
+
+.alert-danger {
+    background-color: #fde8e8;
+    border-color: #f5c2c2;
+    color: #842029;
+}
+
+/* ---------- Page headings ---------- */
+h1, h2, h3, h4, h5 {
+    color: var(--rd-green);
+    letter-spacing: -.3px;
+}
+
+h1 {
+    font-weight: 800;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background: #ffffff;
+    border-top: 3px solid var(--rd-gold) !important;
+    color: var(--rd-grey);
+}
+
+/* ---------- Utility accent ---------- */
+.text-rd-gold {
+    color: var(--rd-gold) !important;
+}
+
+.text-rd-green {
+    color: var(--rd-green) !important;
+}
+
+.bg-rd-green-soft {
+    background: var(--rd-green-soft) !important;
 }
