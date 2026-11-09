@@ -10,7 +10,7 @@
         public DateTime EventDate { get; set; }
         public string Location { get; set; } = string.Empty;
         public decimal Distance { get; set; }
-        public string? EventBanner { get; set; }
+        public string? BannerImageUrl { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public User? Organiser { get; set; }
