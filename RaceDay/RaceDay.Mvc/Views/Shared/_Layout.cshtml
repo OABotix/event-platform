@@ -21,14 +21,20 @@
                 var displayName = Context.Session.GetString("DisplayName");
                         }
                         @if (userId == null)
-            {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Auth" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Auth" asp-action="Register">Register</a>
-                        </li>
-            }
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="registerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Register
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="registerDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="RegisterParticipant">As Participant</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="RegisterOrganiser">As Organiser</a></li>
+                                </ul>
+                            </li>
+                        }
             else if (role == "Organiser")
             {
                         <li class="nav-item"><a class="nav-link" asp-controller="Organiser" asp-action="Index">Dashboard</a></li>

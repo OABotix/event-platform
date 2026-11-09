@@ -11,26 +11,24 @@ public class AuthController : Controller
 
     public AuthController(RaceDayApiClient api) => _api = api;
 
+    // GET /Auth/RegisterOrganiser
     [HttpGet]
-    public IActionResult Register() => View();
+    public IActionResult RegisterOrganiser() => View();
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterVm vm)
+    public async Task<IActionResult> RegisterOrganiser(RegisterVm vm)
     {
         if (!ModelState.IsValid) return View(vm);
 
-        var request = new RegisterRequest
-        {
-            FullName = vm.FullName,
-            Email = vm.Email,
-            Password = vm.Password,
-            PhoneNumber = vm.PhoneNumber
-        };
-
-        // Route to the correct Part 2 endpoint based on role
-        var endpoint = vm.Role == "Organiser" ? "api/auth/register/organiser" : "api/auth/register";
-        var response = await _api.SendAsync(HttpMethod.Post, endpoint, request);
+        var response = await _api.SendAsync(HttpMethod.Post, "api/auth/register/organiser",
+            new RegisterRequest
+            {
+                FullName = vm.FullName,
+                Email = vm.Email,
+                Password = vm.Password,
+                PhoneNumber = vm.PhoneNumber
+            });
 
         if (!response.IsSuccessStatusCode)
         {
@@ -38,7 +36,36 @@ public class AuthController : Controller
             return View(vm);
         }
 
-        TempData["Success"] = "Registration successful. Please log in.";
+        TempData["Success"] = "Organiser account created. Please log in.";
+        return RedirectToAction(nameof(Login));
+    }
+
+    // GET /Auth/RegisterParticipant
+    [HttpGet]
+    public IActionResult RegisterParticipant() => View();
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RegisterParticipant(RegisterVm vm)
+    {
+        if (!ModelState.IsValid) return View(vm);
+
+        var response = await _api.SendAsync(HttpMethod.Post, "api/auth/register",
+            new RegisterRequest
+            {
+                FullName = vm.FullName,
+                Email = vm.Email,
+                Password = vm.Password,
+                PhoneNumber = vm.PhoneNumber
+            });
+
+        if (!response.IsSuccessStatusCode)
+        {
+            ModelState.AddModelError("", "Registration failed. Email may already exist.");
+            return View(vm);
+        }
+
+        TempData["Success"] = "Participant account created. Please log in.";
         return RedirectToAction(nameof(Login));
     }
 
@@ -67,12 +94,10 @@ public class AuthController : Controller
             return View(vm);
         }
 
-        // Save the API session cookie for future API calls
         var apiCookie = RaceDayApiClient.ExtractSessionCookie(response);
         if (!string.IsNullOrWhiteSpace(apiCookie))
             HttpContext.Session.SetString("ApiSessionCookie", apiCookie);
 
-        // Save user info in MVC session
         HttpContext.Session.SetInt32("UserId", auth.UserId);
         HttpContext.Session.SetString("Role", auth.Role);
         HttpContext.Session.SetString("DisplayName", auth.FullName);
