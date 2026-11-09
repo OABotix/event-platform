@@ -65,12 +65,26 @@ public class OrganiserController : Controller
         if (!IsOrganiser()) return RedirectToAction("Login", "Auth");
         if (!ModelState.IsValid) return View(model);
 
+        // 1. Send the create request
         var response = await _api.SendAsync(HttpMethod.Post, "api/events", model);
+
         if (!response.IsSuccessStatusCode)
         {
             ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
             return View(model);
         }
+
+        // 2. Read the new Event ID from the API response
+        // The API returns the raw integer ID (e.g., 5) in the response body
+        var responseContent = await response.Content.ReadAsStringAsync();
+        if (int.TryParse(responseContent, out int newEventId))
+        {
+            TempData["Success"] = "Event created! Now add categories for this event.";
+            // 3. Redirect straight to the Categories page for this event
+            return RedirectToAction(nameof(Categories), new { eventId = newEventId });
+        }
+
+        // Fallback if parsing fails (just in case)
         return RedirectToAction(nameof(Events));
     }
 
