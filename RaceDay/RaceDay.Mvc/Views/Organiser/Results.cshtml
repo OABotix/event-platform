@@ -1,0 +1,40 @@
+@model List<RaceDay.Contracts.Dtos.Results.ResultDto>
+    @{ ViewData["Title"] = "Results"; int eventId = ViewBag.EventId; }
+
+    <div class="container mt-4">
+        <h1>Event Results</h1>
+        <table class="table table-striped mb-4">
+            <thead>
+                <tr><th>Participant</th><th>Category</th><th>Time</th><th>Position</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.ParticipantName</td>
+                    <td>@r.CategoryName</td>
+                    <td>@r.FinishTime</td>
+                    <td>@r.FinishPosition</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <h3>Capture New Result</h3>
+        <form asp-action="CaptureResult" asp-route-eventId="@eventId" method="post">
+            <div class="row">
+                <div class="col-md-3">
+                    <input name="EnrolmentId" type="number" class="form-control mb-2" placeholder="Enrolment ID" required />
+                </div>
+                <div class="col-md-3">
+                    <input name="FinishTime" class="form-control mb-2" placeholder="HH:MM:SS" required />
+                </div>
+                <div class="col-md-3">
+                    <input name="FinishPosition" type="number" class="form-control mb-2" placeholder="Position" required />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>

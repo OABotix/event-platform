@@ -1,0 +1,26 @@
+@model List<RaceDay.Contracts.Dtos.Enrolments.EnrolmentDto>
+    @{ ViewData["Title"] = "Enrolments"; }
+
+    <div class="container mt-4">
+        <h1>Event Enrolments</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Participant</th><th>Category</th><th>Status</th><th>Enrolled</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var e in Model)
+            {
+                <tr>
+                    <td>@e.ParticipantName</td>
+                    <td>@e.CategoryName</td>
+                    <td>
+                        @if (e.Status == "Confirmed") { <span class="badge bg-success">Confirmed</span> }
+                        else if (e.Status == "Pending") { <span class="badge bg-warning text-dark">Pending</span> }
+                        else { <span class="badge bg-secondary">@e.Status</span> }
+                    </td>
+                    <td>@e.EnrolmentDate.ToString("dd MMM yyyy")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
