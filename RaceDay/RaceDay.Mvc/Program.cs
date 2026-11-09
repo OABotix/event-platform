@@ -19,6 +19,10 @@ builder.Services.AddHttpClient("RaceDayApi", client =>
     var baseUrl = builder.Configuration["ApiSettings:BaseUrl"]
         ?? throw new InvalidOperationException("ApiSettings:BaseUrl missing");
     client.BaseAddress = new Uri(baseUrl);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    UseCookies = false  // Let RaceDayApiClient handle cookies manually
 });
 
 builder.Services.AddScoped<RaceDayApiClient>();
