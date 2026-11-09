@@ -24,6 +24,16 @@
                     <td>@ev.Location</td>
                     <td>@ev.Distance km</td>
                     <td>
+                        @if (!string.IsNullOrEmpty(ev.BannerImageUrl))
+                        {
+                            <img src="@ev.BannerImageUrl" alt="Banner" style="max-height: 50px; border-radius: 5px;" />
+                        }
+                        else
+                        {
+                            <span class="text-muted small">No image</span>
+                        }
+                    </td>
+                    <td>
                         <a asp-action="EditEvent" asp-route-id="@ev.EventId" class="btn btn-sm btn-warning">Edit</a>
                         <form asp-action="DeleteEvent" asp-route-id="@ev.EventId" method="post" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this event?')">Delete</button>

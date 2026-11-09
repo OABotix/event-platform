@@ -60,32 +60,32 @@ public class OrganiserController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateEvent(CreateEventRequest model)
+    public async Task<IActionResult> CreateEvent(CreateEventRequest model, IFormFile? banner)
     {
         if (!IsOrganiser()) return RedirectToAction("Login", "Auth");
         if (!ModelState.IsValid) return View(model);
 
-        // 1. Send the create request
+        // 1. Create the event
         var response = await _api.SendAsync(HttpMethod.Post, "api/events", model);
-
         if (!response.IsSuccessStatusCode)
         {
             ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
             return View(model);
         }
 
-        // 2. Read the new Event ID from the API response
-        // The API returns the raw integer ID (e.g., 5) in the response body
+        // 2. Read the new Event ID
         var responseContent = await response.Content.ReadAsStringAsync();
-        if (int.TryParse(responseContent, out int newEventId))
+        int.TryParse(responseContent, out int newEventId);
+
+        // 3. Upload the banner if one was selected
+        if (banner != null && banner.Length > 0 && newEventId > 0)
         {
-            TempData["Success"] = "Event created! Now add categories for this event.";
-            // 3. Redirect straight to the Categories page for this event
-            return RedirectToAction(nameof(Categories), new { eventId = newEventId });
+            await _api.UploadFileAsync($"api/events/{newEventId}/banner", banner);
         }
 
-        // Fallback if parsing fails (just in case)
-        return RedirectToAction(nameof(Events));
+        // 4. Redirect straight to categories
+        TempData["Success"] = "Event created! Now add categories for this event.";
+        return RedirectToAction(nameof(Categories), new { eventId = newEventId });
     }
 
     [HttpGet]
