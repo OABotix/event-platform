@@ -531,9 +531,9 @@ The workflow process includes:
 
 **Part 3 Demonstration Video:**
 
-[Watch the Part 3 Demonstration Video](https://youtu.be/L67DBCfMdkM)
+[Watch the Part 3 Demonstration Video](https://youtu.be/IdaFF8D-zo0)
 
-[![Watch Part 3 Demonstration Video](https://img.shields.io/badge/Watch-Video-red)](https://youtu.be/L67DBCfMdkM)
+[![Watch Part 3 Demonstration Video](https://img.shields.io/badge/Watch-Video-red)](https://youtu.be/IdaFF8D-zo0)
 
 
 
